@@ -93,26 +93,38 @@
         }
 
         .demo-btn {
-            padding: 10px 25px;
-            background: linear-gradient(45deg, #00ffff, #00ff88);
-            border: none;
-            color: #000;
-            font-weight: bold;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 0 20px rgba(0, 255, 200, 0.5);
-        }
+    padding: 10px 25px;
+    background: linear-gradient(45deg, #00ffff, #00ff88);
+    border: none;
+    color: #000;
+    font-weight: bold;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 0 20px rgba(0, 255, 200, 0.5);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
 
-        .demo-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 40px rgba(0, 255, 200, 0.8);
-        }
+.demo-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 40px rgba(0, 255, 200, 0.8);
+}
 
-        .demo-btn.active {
-            background: linear-gradient(45deg, #ff00ff, #00ffff);
-        }
+.demo-btn.active {
+    background: linear-gradient(45deg, #ff00ff, #00ffff);
+    animation: pulse 2s infinite;
+}
 
+@keyframes pulse {
+    0%, 100% { 
+        box-shadow: 0 0 20px rgba(255, 0, 255, 0.5); 
+    }
+    50% { 
+        box-shadow: 0 0 40px rgba(255, 0, 255, 0.9), 0 0 60px rgba(0, 255, 255, 0.6); 
+    }
+}
         /* Contenedor principal */
         main {
             margin-top: 100px;
@@ -315,24 +327,41 @@
 
         /* Animación de demostración */
         .demo-mode {
-            position: fixed;
-            top: 120px;
-            left: 40px;
-            padding: 15px 25px;
-            background: rgba(0, 255, 255, 0.1);
-            border: 2px solid #00ffff;
-            border-radius: 10px;
-            color: #00ffff;
-            font-size: 12px;
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.3s;
-            z-index: 99;
-        }
+    position: fixed;
+    top: 120px;
+    left: 40px;
+    padding: 15px 25px;
+    background: rgba(0, 255, 255, 0.15);
+    border: 2px solid #00ffff;
+    border-radius: 10px;
+    color: #00ffff;
+    font-size: 12px;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.4s ease;
+    z-index: 99;
+    backdrop-filter: blur(10px);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
 
-        .demo-mode.show {
-            opacity: 1;
-        }
+.demo-mode.show {
+    opacity: 1;
+    pointer-events: auto;
+    animation: glow 3s ease-in-out infinite;
+}
+
+@keyframes glow {
+    0%, 100% { 
+        border-color: #00ffff;
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+    }
+    50% { 
+        border-color: #ff00ff;
+        box-shadow: 0 0 30px rgba(255, 0, 255, 0.5);
+    }
+}
 
         /* Responsive */
         @media (max-width: 768px) {
@@ -6513,25 +6542,180 @@ animateParticles();
             sidebarPanel.classList.remove('active');
         });
 
-        // ==================== MODO DEMO ====================
-        const demoBtn = document.getElementById('demoBtn');
-        const demoIndicator = document.getElementById('demoIndicator');
-        let demoPaused = false;
+       // ==================== MODO DEMO FUNCIONAL ====================
+const demoBtn = document.getElementById('demoBtn');
+const demoIndicator = document.getElementById('demoIndicator');
+let demoActive = false;
+let demoInterval;
+let currentDemoStep = 0;
 
-        demoBtn.addEventListener('click', () => {
-            demoPaused = !demoPaused;
-            demoBtn.classList.toggle('active');
-            demoIndicator.classList.toggle('show');
+// Lista de tarjetas en orden para la demostración
+const demoSequence = [
+    'learning', 'web40', 'robotica', 'cuantica', 'esports', 'ra', 
+    'ia', 'plataformas', 'metaverso', 'deporte-tech', 'dispositivos', 
+    'wearables', 'analisis', 'smarttech', 'termografia', 'ciberseguridad'
+];
 
-            if (demoPaused) {
-                const randomCard = cards[Math.floor(Math.random() * cards.length)];
-                randomCard.click();
-                const demoTexts = ['🔍 Analizando datos...', '📡 Sincronizando contenido...', '⚡ Cargando información...'];
-                demoIndicator.textContent = demoTexts[Math.floor(Math.random() * demoTexts.length)];
-            } else {
-                sidebarPanel.classList.remove('active');
+const demoTexts = [
+    '🔍 Explorando tecnologías educativas...',
+    '📡 Analizando innovaciones en EF...',
+    '⚡ Descubriendo herramientas digitales...',
+    '🎯 Evaluando aplicaciones prácticas...',
+    '🚀 Investigando tendencias futuras...',
+    '💡 Conectando teoría y práctica...'
+];
+
+function startDemo() {
+    demoActive = true;
+    currentDemoStep = 0;
+    demoBtn.classList.add('active');
+    demoBtn.textContent = '⏸️ Pausar Demo';
+    
+    // Mostrar indicador con texto inicial
+    demoIndicator.textContent = demoTexts[0];
+    demoIndicator.classList.add('show');
+    
+    // Iniciar el ciclo de demostración
+    demoInterval = setInterval(() => {
+        if (currentDemoStep < demoSequence.length) {
+            // Cerrar panel actual si está abierto
+            closeAllPanels();
+            
+            // Actualizar texto del indicador
+            const textIndex = currentDemoStep % demoTexts.length;
+            demoIndicator.textContent = demoTexts[textIndex];
+            
+            // Esperar un poco y luego abrir el siguiente panel
+            setTimeout(() => {
+                const topicId = demoSequence[currentDemoStep];
+                const card = document.querySelector(`[data-topic="${topicId}"]`);
+                
+                if (card) {
+                    // Hacer scroll suave hacia la tarjeta
+                    card.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'center' 
+                    });
+                    
+                    // Resaltar la tarjeta brevemente
+                    card.style.transform = 'scale(1.05)';
+                    card.style.boxShadow = '0 0 40px rgba(0, 255, 255, 0.8)';
+                    
+                    setTimeout(() => {
+                        card.style.transform = '';
+                        card.style.boxShadow = '';
+                        // Simular clic en la tarjeta
+                        card.click();
+                    }, 800);
+                }
+                
+                currentDemoStep++;
+            }, 1000);
+        } else {
+            // Demo completado, reiniciar
+            currentDemoStep = 0;
+            demoIndicator.textContent = '🎉 Demo completado - Reiniciando...';
+        }
+    }, 4000); // Cambiar cada 4 segundos
+}
+
+function stopDemo() {
+    demoActive = false;
+    demoBtn.classList.remove('active');
+    demoBtn.textContent = '🎬 Modo Demo';
+    demoIndicator.classList.remove('show');
+    
+    if (demoInterval) {
+        clearInterval(demoInterval);
+    }
+    
+    // Cerrar todos los paneles
+    closeAllPanels();
+    
+    // Scroll al inicio
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function closeAllPanels() {
+    // Cerrar sidebar principal
+    if (sidebarPanel) {
+        sidebarPanel.classList.remove('active');
+    }
+    
+    // Cerrar todos los paneles específicos
+    document.querySelectorAll('[class*="-panel"]').forEach(panel => {
+        panel.classList.remove('active');
+    });
+    
+    // Cerrar secciones de información completa
+    document.querySelectorAll('.info-completa-section').forEach(section => {
+        section.classList.remove('active');
+    });
+    
+    // Restaurar scroll del body
+    document.body.style.overflow = 'auto';
+}
+
+// Event listener para el botón demo
+if (demoBtn && demoIndicator) {
+    demoBtn.addEventListener('click', () => {
+        if (demoActive) {
+            stopDemo();
+        } else {
+            startDemo();
+        }
+    });
+}
+
+// Pausar demo al hacer hover sobre una tarjeta
+document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('mouseenter', () => {
+        if (demoActive) {
+            // Pausar temporalmente el demo
+            if (demoInterval) {
+                clearInterval(demoInterval);
             }
-        });
+            demoIndicator.textContent = '⏸️ Demo pausado - Explora libremente';
+        }
+    });
+    
+    card.addEventListener('mouseleave', () => {
+        if (demoActive) {
+            // Reanudar demo después de 2 segundos
+            setTimeout(() => {
+                if (demoActive) {
+                    startDemo();
+                }
+            }, 2000);
+        }
+    });
+});
+
+// Detener demo al hacer clic en cualquier elemento interactivo
+document.addEventListener('click', (e) => {
+    if (demoActive && !e.target.closest('#demoBtn') && !e.target.closest('#demoIndicator')) {
+        const isInteractive = e.target.closest('a, button, .card, .option-btn, [role="button"]');
+        if (isInteractive) {
+            demoIndicator.textContent = '👆 Interacción detectada - Demo pausado';
+            // Pausar por 5 segundos
+            if (demoInterval) {
+                clearInterval(demoInterval);
+            }
+            setTimeout(() => {
+                if (demoActive) {
+                    startDemo();
+                }
+            }, 5000);
+        }
+    }
+});
+
+// Detener demo con tecla ESC
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && demoActive) {
+        stopDemo();
+    }
+});
 // ==================== PANEL ROBÓTICA Y DRONES ====================
         const roboticaPanel = document.getElementById('roboticaPanel');
         const roboticaPanelClose = document.getElementById('roboticaPanelClose');
