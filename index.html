@@ -3017,6 +3017,260 @@
                 bottom: 100px;
             }
         }
+        /* ========== MODAL TALLER ========== */
+.taller-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.taller-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.taller-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 14, 39, 0.95);
+    backdrop-filter: blur(10px);
+}
+
+.taller-modal-content {
+    position: relative;
+    width: 90%;
+    max-width: 1000px;
+    height: 90%;
+    margin: 5% auto;
+    background: linear-gradient(135deg, rgba(10, 14, 39, 0.98) 0%, rgba(26, 26, 77, 0.98) 100%);
+    border: 3px solid rgba(0, 255, 200, 0.5);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 0 50px rgba(0, 255, 255, 0.3);
+}
+
+.taller-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 30px;
+    border-bottom: 2px solid rgba(0, 255, 200, 0.3);
+    background: rgba(0, 255, 200, 0.05);
+}
+
+.taller-modal-header h2 {
+    color: #00ffff;
+    font-size: 24px;
+    margin: 0;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
+}
+
+.taller-modal-close {
+    background: none;
+    border: none;
+    color: #ff00ff;
+    font-size: 28px;
+    cursor: pointer;
+    transition: all 0.3s;
+    padding: 5px;
+}
+
+.taller-modal-close:hover {
+    transform: rotate(90deg);
+    color: #00ffff;
+}
+
+.taller-modal-body {
+    height: calc(100% - 90px);
+    overflow-y: auto;
+    padding: 30px;
+}
+
+.taller-section {
+    margin-bottom: 35px;
+    padding: 20px;
+    background: rgba(0, 255, 200, 0.05);
+    border: 1px solid rgba(0, 255, 200, 0.2);
+    border-radius: 12px;
+}
+
+.taller-section h3 {
+    color: #00ff88;
+    font-size: 20px;
+    margin-bottom: 15px;
+    text-shadow: 0 0 8px rgba(0, 255, 136, 0.5);
+}
+
+.taller-section h4 {
+    color: #00ffff;
+    font-size: 16px;
+    margin: 20px 0 10px 0;
+}
+
+.taller-section p {
+    color: #b0b0ff;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.taller-section ul {
+    color: #b0b0ff;
+    margin-left: 20px;
+}
+
+.taller-section li {
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+.herramientas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.herramienta-link {
+    display: block;
+    padding: 12px 15px;
+    background: rgba(0, 255, 200, 0.1);
+    border: 1px solid rgba(0, 255, 200, 0.3);
+    border-radius: 8px;
+    color: #00ffff;
+    text-decoration: none;
+    transition: all 0.3s;
+    font-size: 13px;
+}
+
+.herramienta-link:hover {
+    background: rgba(0, 255, 200, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 255, 255, 0.2);
+}
+
+.talleres-list {
+    margin-top: 15px;
+}
+
+.taller-item {
+    padding: 15px;
+    margin-bottom: 12px;
+    background: rgba(255, 0, 255, 0.05);
+    border-left: 3px solid #ff00ff;
+    border-radius: 6px;
+}
+
+.taller-item strong {
+    color: #ff00ff;
+}
+
+.taller-item small {
+    color: #b0b0ff;
+    display: block;
+    margin-top: 5px;
+}
+
+.ia-tools-table {
+    margin-top: 15px;
+}
+
+.tool-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px;
+    margin-bottom: 8px;
+    background: rgba(0, 255, 255, 0.05);
+    border-radius: 8px;
+    border-left: 3px solid #00ffff;
+}
+
+.tool-num {
+    background: #00ffff;
+    color: #000;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.tool-row strong {
+    color: #00ffff;
+    min-width: 180px;
+}
+
+.tool-row small {
+    color: #b0b0ff;
+    font-size: 11px;
+}
+
+.cierre-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.cierre-box {
+    padding: 20px;
+    background: rgba(0, 255, 136, 0.05);
+    border: 1px solid rgba(0, 255, 136, 0.2);
+    border-radius: 10px;
+}
+
+.cierre-box h4 {
+    color: #00ff88;
+    margin-bottom: 10px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .taller-modal-content {
+        width: 95%;
+        height: 95%;
+        margin: 2.5% auto;
+    }
+    
+    .taller-modal-header {
+        padding: 20px;
+    }
+    
+    .taller-modal-header h2 {
+        font-size: 18px;
+    }
+    
+    .taller-modal-body {
+        padding: 20px;
+    }
+    
+    .herramientas-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .cierre-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .tool-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+}
     </style>
 </head>
 <body>
@@ -5585,6 +5839,144 @@
         </div>
     </div>
 </section>
+    <!-- ========== MODAL TALLER COMPLETO ========== -->
+<div class="taller-modal" id="tallerModal">
+    <div class="taller-modal-overlay" id="tallerModalOverlay"></div>
+    <div class="taller-modal-content">
+        <div class="taller-modal-header">
+            <h2>🎯 Taller: Integración de IA en Educación Física</h2>
+            <button class="taller-modal-close" id="tallerModalClose">✕</button>
+        </div>
+        
+        <div class="taller-modal-body">
+            <!-- Propósito -->
+            <div class="taller-section">
+                <h3>🎯 Propósito del Taller</h3>
+                <p>Fortalecer las competencias digitales y pedagógicas de los docentes mediante el uso de herramientas tecnológicas y de inteligencia artificial aplicadas a la enseñanza, análisis y promoción de la actividad física.</p>
+            </div>
+
+            <!-- Módulo 1 -->
+            <div class="taller-section">
+                <h3>🧩 Módulo 1. Uso de Google Workspace</h3>
+                <p><strong>Aplicaciones:</strong> Google Docs, Sheets, Slides, Drive, Forms, Meet y Classroom.</p>
+                <p><strong>Enfoque:</strong> Colaboración, evaluación y planificación digital en la enseñanza de la Educación Física.</p>
+            </div>
+
+            <!-- Módulo 2 -->
+            <div class="taller-section">
+                <h3>🎮 Módulo 2. Plataformas Interactivas para Aprendizaje Activo</h3>
+                <div class="herramientas-grid">
+                    <a href="https://es.educaplay.com/" target="_blank" class="herramienta-link">🎲 Educaplay - Actividades interactivas</a>
+                    <a href="https://kahoot.com/" target="_blank" class="herramienta-link">🏆 Kahoot! - Concursos en tiempo real</a>
+                    <a href="https://edpuzzle.com/" target="_blank" class="herramienta-link">📽️ Edpuzzle - Videos interactivos</a>
+                    <a href="https://genial.ly/" target="_blank" class="herramienta-link">✨ Genially - Presentaciones animadas</a>
+                    <a href="https://www.canva.com/" target="_blank" class="herramienta-link">🎨 Canva - Diseño gráfico</a>
+                    <a href="https://www.powtoon.com/" target="_blank" class="herramienta-link">🎬 Powtoon - Animaciones</a>
+                    <a href="https://padlet.com/" target="_blank" class="herramienta-link">📋 Padlet - Murales colaborativos</a>
+                </div>
+            </div>
+
+            <!-- Módulo 3 -->
+            <div class="taller-section">
+                <h3>🤖 Módulo 3. Inteligencia Artificial Aplicada a la Educación Física</h3>
+                <h4>🧩 Generación de Prompts y Estructura</h4>
+                <p>Cómo formular instrucciones efectivas para obtener respuestas útiles de la IA.</p>
+                
+                <h4>💪 Talleres Prácticos</h4>
+                <div class="talleres-list">
+                    <div class="taller-item">
+                        <strong>Taller 1:</strong> Usar ChatGPT como entrenador virtual<br>
+                        <small>Diseñar una rutina personalizada según objetivos, nivel y tiempo disponible.</small>
+                    </div>
+                    <div class="taller-item">
+                        <strong>Taller 2:</strong> Crear una cápsula educativa deportiva con IA<br>
+                        <small>Combinar texto + imagen + video para explicar un concepto (usando ChatGPT + Canva + Genially).</small>
+                    </div>
+                    <div class="taller-item">
+                        <strong>Taller 3:</strong> Videoanálisis con IA<br>
+                        <small>Aplicaciones para detectar errores técnicos o de postura en movimientos deportivos.</small>
+                    </div>
+                    <div class="taller-item">
+                        <strong>Taller 4:</strong> Simulación táctica deportiva<br>
+                        <small>Uso de IA para predicción de jugadas o estrategias (ejemplo: análisis táctico en fútbol).</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Módulo 4 -->
+            <div class="taller-section">
+                <h3>⚙️ Módulo 4. Herramientas y Aplicaciones de IA Recomendadas</h3>
+                <div class="ia-tools-table">
+                    <div class="tool-row"><span class="tool-num">1</span><strong>ChatGPT 5 (OpenAI)</strong><small>Generación de rutinas, textos educativos, guías</small></div>
+                    <div class="tool-row"><span class="tool-num">2</span><strong>Claude Sonnet 4</strong><small>Redacción de material pedagógico avanzado</small></div>
+                    <div class="tool-row"><span class="tool-num">3</span><strong>Gemini 2.5 Pro</strong><small>Integración con Google Workspace</small></div>
+                    <div class="tool-row"><span class="tool-num">4</span><strong>Perplexity AI</strong><small>Búsqueda y síntesis de información confiable</small></div>
+                    <div class="tool-row"><span class="tool-num">5</span><strong>Midjourney V6</strong><small>Creación de imágenes deportivas realistas</small></div>
+                    <div class="tool-row"><span class="tool-num">6</span><strong>DALL·E 3</strong><small>Ilustraciones y gráficos educativos</small></div>
+                    <div class="tool-row"><span class="tool-num">7</span><strong>Adobe Firefly</strong><small>Edición visual y creación de fondos</small></div>
+                    <div class="tool-row"><span class="tool-num">8</span><strong>ElevenLabs</strong><small>Generación de voces para cápsulas educativas</small></div>
+                    <div class="tool-row"><span class="tool-num">9</span><strong>Microsoft 365 Copilot</strong><small>Asistente en documentos y presentaciones</small></div>
+                    <div class="tool-row"><span class="tool-num">10</span><strong>Notion AI</strong><small>Organización de contenidos y apuntes</small></div>
+                    <div class="tool-row"><span class="tool-num">11</span><strong>Mistral</strong><small>Procesamiento rápido de texto en español</small></div>
+                    <div class="tool-row"><span class="tool-num">12</span><strong>Ideogram AI</strong><small>Generación de imágenes con texto integrado</small></div>
+                    <div class="tool-row"><span class="tool-num">13</span><strong>Cursor</strong><small>Soporte para materiales interactivos</small></div>
+                    <div class="tool-row"><span class="tool-num">14</span><strong>AudioPen Pro</strong><small>Transcripción de audio para análisis de clases</small></div>
+                    <div class="tool-row"><span class="tool-num">15</span><strong>Canva AI Suite</strong><small>Diseño y contenido asistido por IA</small></div>
+                </div>
+            </div>
+
+            <!-- Módulo 5 -->
+            <div class="taller-section">
+                <h3>📱 Módulo 5. Aplicaciones Móviles Deportivas</h3>
+                <ul>
+                    <li><strong>Pulsioxímetros:</strong> medición de saturación de oxígeno y frecuencia cardíaca</li>
+                    <li><strong>Blazepod:</strong> entrenamiento visual y de reflejos</li>
+                    <li><strong>Otras apps:</strong> seguimiento de pasos, control de carga de entrenamiento, y planificación deportiva</li>
+                </ul>
+            </div>
+
+            <!-- Módulo 6 -->
+            <div class="taller-section">
+                <h3>🌐 Módulo 6. Recursos Web y Comunidades</h3>
+                <p><strong>Páginas y blogs recomendados sobre Educación Física y Deporte:</strong></p>
+                <ul>
+                    <li>Espacios colaborativos en Padlet y Genially</li>
+                    <li>Plataformas académicas de actividad física y salud</li>
+                    <li>Blogs de innovación pedagógica en educación física</li>
+                </ul>
+            </div>
+
+            <!-- Cierre -->
+            <div class="taller-section">
+                <h3>🏁 Cierre del Taller</h3>
+                <div class="cierre-grid">
+                    <div class="cierre-box">
+                        <h4>Características destacadas:</h4>
+                        <ul>
+                            <li>Integración práctica de IA y herramientas digitales</li>
+                            <li>Aplicación directa al aula y a la práctica deportiva</li>
+                        </ul>
+                    </div>
+                    <div class="cierre-box">
+                        <h4>Puntos fuertes:</h4>
+                        <ul>
+                            <li>Enfoque interdisciplinar (educación, tecnología, salud)</li>
+                            <li>Actividades dinámicas y colaborativas</li>
+                        </ul>
+                    </div>
+                    <div class="cierre-box">
+                        <h4>Casos de uso:</h4>
+                        <ul>
+                            <li>Diseño de rutinas automatizadas</li>
+                            <li>Evaluación con videoanálisis</li>
+                            <li>Creación de recursos visuales interactivos</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
             <!-- ========== SECCIÓN CONTACTO ========== -->
 <section class="fade-on-scroll" id="contacto" style="margin-top: 80px; margin-bottom: 80px;">
     <div style="max-width: 800px; margin: 0 auto; background: linear-gradient(135deg, rgba(0, 255, 255, 0.05) 0%, rgba(255, 0, 255, 0.05) 100%); border: 2px solid rgba(0, 255, 200, 0.3); border-radius: 20px; padding: 50px 40px; backdrop-filter: blur(10px);">
@@ -7443,11 +7835,39 @@ const moduloCards = document.querySelectorAll('.modulo-card');
 
 if (verTallerBtn) {
     verTallerBtn.addEventListener('click', () => {
-        // Aquí puedes agregar funcionalidad para mostrar el programa completo
-        // Por ejemplo, abrir un modal o redirigir a una página específica
-        alert('Funcionalidad en desarrollo: Mostrar programa completo del taller');
+        document.getElementById('tallerModal').classList.add('active');
+        document.body.style.overflow = 'hidden';
     });
 }
+
+// Cerrar modal del taller
+const tallerModalClose = document.getElementById('tallerModalClose');
+const tallerModalOverlay = document.getElementById('tallerModalOverlay');
+
+if (tallerModalClose) {
+    tallerModalClose.addEventListener('click', () => {
+        document.getElementById('tallerModal').classList.remove('active');
+        document.body.style.overflow = 'auto';
+    });
+}
+
+if (tallerModalOverlay) {
+    tallerModalOverlay.addEventListener('click', () => {
+        document.getElementById('tallerModal').classList.remove('active');
+        document.body.style.overflow = 'auto';
+    });
+}
+
+// Cerrar con ESC
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        const modal = document.getElementById('tallerModal');
+        if (modal && modal.classList.contains('active')) {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+    }
+});
 
 // Efecto hover para las tarjetas de módulos
 moduloCards.forEach(card => {
