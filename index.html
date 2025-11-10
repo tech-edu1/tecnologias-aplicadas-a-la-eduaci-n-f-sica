@@ -125,6 +125,18 @@
         box-shadow: 0 0 40px rgba(255, 0, 255, 0.9), 0 0 60px rgba(0, 255, 255, 0.6); 
     }
 }
+        /* Mejora para móviles */
+@media (max-width: 768px) {
+    .demo-btn {
+        font-size: 11px;
+        padding: 8px 16px;
+        white-space: nowrap;
+    }
+    
+    .demo-btn:hover {
+        transform: scale(1.02);
+    }
+}
         /* Contenedor principal */
         main {
             margin-top: 100px;
@@ -5954,6 +5966,79 @@
                 bottom: 160px;
             }
         }
+        /* Indicador de salida del demo */
+.demo-exit-indicator {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 12px 20px;
+    background: rgba(255, 0, 255, 0.15);
+    border: 2px solid #ff00ff;
+    border-radius: 25px;
+    color: #ff00ff;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.4s ease;
+    z-index: 200;
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+}
+
+.demo-exit-indicator.show {
+    opacity: 1;
+    pointer-events: auto;
+    animation: pulseExit 3s ease-in-out infinite;
+}
+
+.demo-exit-indicator:hover {
+    background: rgba(255, 0, 255, 0.25);
+    transform: scale(1.05);
+}
+
+@keyframes pulseExit {
+    0%, 100% { 
+        border-color: #ff00ff;
+        box-shadow: 0 0 15px rgba(255, 0, 255, 0.3);
+    }
+    50% { 
+        border-color: #00ffff;
+        box-shadow: 0 0 25px rgba(0, 255, 255, 0.5);
+    }
+}
+
+/* Responsive para móviles */
+@media (max-width: 768px) {
+    .demo-exit-indicator {
+        top: auto;
+        bottom: 20px;
+        right: 20px;
+        left: 20px;
+        text-align: center;
+        font-size: 12px;
+        padding: 15px 20px;
+        border-radius: 15px;
+    }
+    
+    .demo-exit-indicator:hover {
+        transform: none;
+        background: rgba(255, 0, 255, 0.25);
+    }
+}
+
+/* Ajuste del demo mode para que no se superponga */
+@media (max-width: 768px) {
+    .demo-mode {
+        top: 80px;
+        left: 20px;
+        right: 20px;
+        width: auto;
+        text-align: center;
+    }
+}
     </style>
 </head>
 <body>
@@ -6542,7 +6627,7 @@ animateParticles();
             sidebarPanel.classList.remove('active');
         });
 
-       // ==================== MODO DEMO FUNCIONAL ====================
+      // ==================== MODO DEMO FUNCIONAL ====================
 const demoBtn = document.getElementById('demoBtn');
 const demoIndicator = document.getElementById('demoIndicator');
 let demoActive = false;
@@ -6565,15 +6650,42 @@ const demoTexts = [
     '💡 Conectando teoría y práctica...'
 ];
 
+// Detectar si es dispositivo móvil
+function isMobile() {
+    return /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+}
+
+function createExitIndicator() {
+    // Crear indicador de salida
+    const exitIndicator = document.createElement('div');
+    exitIndicator.id = 'demoExitIndicator';
+    exitIndicator.className = 'demo-exit-indicator';
+    
+    if (isMobile()) {
+        exitIndicator.innerHTML = '📱 Toca aquí para salir del demo';
+    } else {
+        exitIndicator.innerHTML = '⌨️ Presiona ESC para salir';
+    }
+    
+    document.body.appendChild(exitIndicator);
+    return exitIndicator;
+}
+
 function startDemo() {
     demoActive = true;
     currentDemoStep = 0;
     demoBtn.classList.add('active');
-    demoBtn.textContent = '⏸️ Pausar Demo';
+    demoBtn.textContent = '▶️ Demo Activo';
     
-    // Mostrar indicador con texto inicial
+    // Mostrar indicador principal
     demoIndicator.textContent = demoTexts[0];
     demoIndicator.classList.add('show');
+    
+    // Crear y mostrar indicador de salida
+    const exitIndicator = createExitIndicator();
+    setTimeout(() => {
+        exitIndicator.classList.add('show');
+    }, 1000);
     
     // Iniciar el ciclo de demostración
     demoInterval = setInterval(() => {
@@ -6625,6 +6737,12 @@ function stopDemo() {
     demoBtn.textContent = '🎬 Modo Demo';
     demoIndicator.classList.remove('show');
     
+    // Remover indicador de salida
+    const exitIndicator = document.getElementById('demoExitIndicator');
+    if (exitIndicator) {
+        exitIndicator.remove();
+    }
+    
     if (demoInterval) {
         clearInterval(demoInterval);
     }
@@ -6667,52 +6785,16 @@ if (demoBtn && demoIndicator) {
     });
 }
 
-// Pausar demo al hacer hover sobre una tarjeta
-document.querySelectorAll('.card').forEach(card => {
-    card.addEventListener('mouseenter', () => {
-        if (demoActive) {
-            // Pausar temporalmente el demo
-            if (demoInterval) {
-                clearInterval(demoInterval);
-            }
-            demoIndicator.textContent = '⏸️ Demo pausado - Explora libremente';
-        }
-    });
-    
-    card.addEventListener('mouseleave', () => {
-        if (demoActive) {
-            // Reanudar demo después de 2 segundos
-            setTimeout(() => {
-                if (demoActive) {
-                    startDemo();
-                }
-            }, 2000);
-        }
-    });
-});
-
-// Detener demo al hacer clic en cualquier elemento interactivo
-document.addEventListener('click', (e) => {
-    if (demoActive && !e.target.closest('#demoBtn') && !e.target.closest('#demoIndicator')) {
-        const isInteractive = e.target.closest('a, button, .card, .option-btn, [role="button"]');
-        if (isInteractive) {
-            demoIndicator.textContent = '👆 Interacción detectada - Demo pausado';
-            // Pausar por 5 segundos
-            if (demoInterval) {
-                clearInterval(demoInterval);
-            }
-            setTimeout(() => {
-                if (demoActive) {
-                    startDemo();
-                }
-            }, 5000);
-        }
+// SOLO detener demo con tecla ESC (PC)
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && demoActive) {
+        stopDemo();
     }
 });
 
-// Detener demo con tecla ESC
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && demoActive) {
+// Para móviles: click en el indicador de salida
+document.addEventListener('click', (e) => {
+    if (e.target.closest('#demoExitIndicator') && demoActive) {
         stopDemo();
     }
 });
